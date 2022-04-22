@@ -1,9 +1,9 @@
 import "./messenger.css";
-import {Conversation} from "../conversation/conversations";
-import {Message} from "../message/message";
-import {ChatOnline} from "../chatOnline/chatOnline";
+import Conversation from "../conversation/conversations";
+import Message from "../message/message";
+import ChatOnline from "../chatOnline/chatOnline";
 import { useContext, useEffect, useRef, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/authContext";
 import axios from "axios";
 import { io } from "socket.io-client";
 
@@ -47,7 +47,7 @@ export default function Messenger() {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const res = await axios.get("/conversations/" + user._id);
+        const res = await axios.get("http://localhost:3001/chat/" + user._id);
         setConversations(res.data);
       } catch (err) {
         console.log(err);
@@ -59,7 +59,7 @@ export default function Messenger() {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get("/messages/" + currentChat?._id);
+        const res = await axios.get("http://localhost:3001/message/" + currentChat?._id);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -87,7 +87,7 @@ export default function Messenger() {
     });
 
     try {
-      const res = await axios.post("/messages", message);
+      const res = await axios.post("http://localhost:3001/message/", message);
       setMessages([...messages, res.data]);
       setNewMessage("");
     } catch (err) {
