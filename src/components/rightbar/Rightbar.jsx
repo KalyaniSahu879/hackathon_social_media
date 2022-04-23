@@ -24,28 +24,24 @@ export default function Rightbar({ user }) {
   );
 
   useEffect(() => {
-    setFollowed(currentUser.followings.includes(user?.id));
-  }, [currentUser, user.id]);
-
-  useEffect(() => {
-    console.log("dtails-use --before", user.username);
-    if (user.username) {
-      const getFriends = async () => {
-        try {
-          const friendList = await axios.get(
-            "https://hackthon-backend-soc.herokuapp.com/api/users/friends/" +
-              user._id
-          );
-          console.log("fetch", friendList);
-          setFriends(friendList.data);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      getFriends();
-      console.log("after");
-    }
-  }, [user._id]);
+    //console.log("dtails-use --before", user.username);
+    //if (user.username) {
+    const getFriends = async () => {
+      try {
+        const friendList = await axios.get(
+          "https://hackthon-backend-soc.herokuapp.com/api/users/friends/" +
+            user._id
+        );
+        console.log("fetch", friendList);
+        setFriends(friendList.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getFriends();
+    console.log("after");
+    //}
+  }, [user]);
 
   const handleClick = async () => {
     try {
