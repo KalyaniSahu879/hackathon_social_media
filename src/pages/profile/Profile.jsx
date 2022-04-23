@@ -5,8 +5,25 @@ import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
 import coverPage from '../../assets/p3.jpeg'
 import pp from '../../assets/3.jpeg'
+import dummyCover from '../../assets/p8.jpeg'
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router";
 
 export default function Profile() {
+  let {username}= useParams()
+  const [user,setUser] = useState({})
+  useEffect (()=>{
+    const fetchUser = async () => {
+      await axios.get(`https://hackthon-backend-soc.herokuapp.com/api/users?username=${username}`)
+      .then((res)=>{
+        console.log("users" ,res);
+        setUser(res.data)
+      }).catch((err)=> console.log(err))
+    }
+    fetchUser();
+    },[username])
+
   return (
     <>
       <Topbar />
@@ -17,23 +34,23 @@ export default function Profile() {
             <div className="profileCover">
               <img
                 className="profileCoverImg"
-                src={coverPage}
-                alt=""
+                src={user.coverPicture || dummyCover}
+                alt="cover picture"
               />
               <img
                 className="profileUserImg"
-                src={pp}
+                src={user.profilePicture || dummyCover}
                 alt=""
               />
             </div>
             <div className="profileInfo">
-                <h4 className="profileInfoName">Safak Kocaoglu</h4>
-                <span className="profileInfoDesc">Hello my friends!</span>
+                <h4 className="profileInfoName">{user.username}</h4>
+                <span className="profileInfoDesc">{user.desc}</span>
             </div>
           </div>
           <div className="profileRightBottom">
-            <Feed />
-            <Rightbar profile/>
+            <Feed username={username}/>
+            <Rightbar user={user}/>
           </div>
         </div>
       </div>

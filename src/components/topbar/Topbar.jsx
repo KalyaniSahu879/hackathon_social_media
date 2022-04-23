@@ -1,13 +1,19 @@
 import { Chat, Notifications, Person, Search } from '@mui/icons-material'
-import React from 'react'
+import React, { useContext } from 'react'
 import './topbar.css'
 import profile from '../../assets/1.jpeg'
+import {Link} from 'react-router-dom'
+import { AuthContext } from '../redux/AuthContext'
 
 const Topbar = () => {
+    const {user} = useContext(AuthContext);
+
   return (
     <div className='topbarContainer'>
         <div className="topbarLeft">
-            <span className="logo">SocialApp.</span>
+            <Link to='/' style = {{textDecoration:"none"}}>
+                <span className="logo">SocialApp.</span>
+            </Link>
         </div>
         <div className="topbarCenter">
             <div className="searchbar">
@@ -34,7 +40,10 @@ const Topbar = () => {
                     <span className="topbarIconBadge">1</span>
                 </div>
             </div>
+            <Link to={`/profile/${user.username}`} >
             <img src={profile} alt="Hello" className="topbarImg" />
+            </Link>
+            
         </div>
         
     </div>
