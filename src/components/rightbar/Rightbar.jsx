@@ -20,27 +20,27 @@ export default function Rightbar({ user }) {
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState(
-    currentUser.followings.includes(user?.id)
+    currentUser.followings.includes(user?._id)
   );
 
   useEffect(() => {
     //console.log("dtails-use --before", user.username);
-    //if (user.username) {
-    const getFriends = async () => {
-      try {
-        const friendList = await axios.get(
-          "https://hackthon-backend-soc.herokuapp.com/api/users/friends/" +
-            user._id
-        );
-        console.log("fetch", friendList);
-        setFriends(friendList.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getFriends();
-    console.log("after");
-    //}
+    if (user?._id) {
+      const getFriends = async () => {
+        try {
+          const friendList = await axios.get(
+            "https://hackthon-backend-soc.herokuapp.com/api/users/friends/" +
+              user._id
+          );
+          console.log("fetch", friendList);
+          setFriends(friendList.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getFriends();
+      console.log("after");
+    }
   }, [user]);
 
   const handleClick = async () => {
@@ -75,7 +75,7 @@ export default function Rightbar({ user }) {
             <b>Pola Foster</b> and <b>3 other friends</b> have a birhday today.
           </span>
         </div>
-        <img className="rightbarAd" src={add} alt="" />
+        <img className="rightbarAd" src={pic3} alt="" />
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarFriendList">
           {Users.map((u) => (

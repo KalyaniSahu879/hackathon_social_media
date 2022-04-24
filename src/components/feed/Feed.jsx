@@ -9,6 +9,7 @@ import { AuthContext } from "../redux/AuthContext";
 const Feed = ({ username }) => {
   const [post, setPost] = useState([]);
   const { user } = useContext(AuthContext);
+  // console.log("username", username);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -34,7 +35,7 @@ const Feed = ({ username }) => {
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {username === user.username && <Share />}
+        <Share />
         {post.map((elem) => (
           <Post key={elem._id} post={elem} />
         ))}
